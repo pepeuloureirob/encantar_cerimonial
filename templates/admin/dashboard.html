@@ -1,0 +1,15 @@
+{% extends "admin/base.html" %}{% block content %}<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:30px">
+<a class="btn" href="{{ url_for('admin_dashboard') }}">Dashboard</a><a class="btn" href="{{ url_for('admin_eventos') }}">Eventos</a><a class="btn" href="{{ url_for('admin_imagens') }}">Imagens</a><a class="btn" href="{{ url_for('admin_servicos') }}">Serviços</a><a class="btn" href="{{ url_for('admin_equipe') }}">Equipe</a><a class="btn" href="{{ url_for('admin_configuracoes') }}">Configurações</a><a class="btn" href="{{ url_for('admin_backup') }}">Backup</a>
+</div>
+<div class="section-head"><div><div class="eyebrow">Visão geral</div><h1 style="font-size:60px">Dashboard</h1></div><a class="btn primary" href="{{ url_for('home') }}" target="_blank">Ver site</a></div>
+<div class="grid grid-3">
+<div class="card"><div class="number">EVENTOS</div><h3>{{ eventos }}</h3><p>Eventos cadastrados</p></div>
+<div class="card"><div class="number">GALERIA</div><h3>{{ imagens }}</h3><p>Imagens publicadas</p></div>
+<div class="card"><div class="number">FEEDBACKS</div><h3>{{ feedbacks }}</h3><p>Aguardando aprovação</p></div>
+<div class="card"><div class="number">SERVIÇOS</div><h3>{{ servicos }}</h3><p>Serviços cadastrados</p></div>
+<div class="card"><div class="number">EQUIPE</div><h3>{{ equipe }}</h3><p>Profissionais cadastrados</p></div>
+<div class="card"><div class="number">VISITAS</div><h3>{{ visitas }}</h3><p>Registros de acesso</p></div>
+</div>
+<section class="section" style="padding-bottom:20px"><div class="card"><div class="eyebrow">Último evento</div>{% if ultimo_evento %}<h3>{{ ultimo_evento.titulo }}</h3><p>{{ ultimo_evento.data_evento }} · {{ ultimo_evento.local }}</p>{% else %}<p>Nenhum evento ainda.</p>{% endif %}</div></section>
+<section class="section" style="padding-top:20px"><div class="card"><h3>Feedbacks pendentes</h3>{% set pendentes = namespace(items=[]) %}{% for f in [] %}{% endfor %}<p>Abra a página de depoimentos do site ou use a área de feedbacks abaixo nas próximas expansões. Para administrar feedbacks nesta versão, os controles ficam na seção de feedbacks.</p>{% for f in [] %}{% endfor %}</div></section>
+{% endblock %}
