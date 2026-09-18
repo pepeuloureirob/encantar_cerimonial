@@ -1,0 +1,18 @@
+<!doctype html><html lang="pt-BR"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}{{ site.nome }}{% endblock %}</title>
+<meta name="description" content="{{ site.descricao }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head><body>
+<div class="topbar"><div class="container"><span>{{ site.email }}</span><span>{{ site.telefone }}</span></div></div>
+<header><div class="container nav-wrap">
+<a class="logo" href="{{ url_for('home') }}">{% if site.logo %}<img src="{{ url_for('static', filename='uploads/' ~ site.logo) }}" style="height:48px;max-width:180px;object-fit:contain">{% else %}Encantar<small>Cerimonial</small>{% endif %}</a>
+<button class="menu-toggle">☰</button>
+<nav class="site-nav">
+<a href="{{ url_for('home') }}">Início</a><a href="{{ url_for('sobre') }}">Sobre Nós</a><a href="{{ url_for('equipe_publica') }}">Equipe</a><a href="{{ url_for('servicos_publicos') }}">Serviços</a><a href="{{ url_for('eventos_publicos') }}">Eventos</a><a href="{{ url_for('galeria_publica') }}">Galeria</a><a href="{{ url_for('depoimentos') }}">Depoimentos</a><a href="{{ url_for('faq') }}">FAQ</a><a href="{{ url_for('contato') }}">Contato</a><a class="btn primary" href="{{ url_for('orcamento') }}">Orçamento</a>
+</nav></div></header>
+{% with messages=get_flashed_messages(with_categories=true) %}{% if messages %}<div class="container">{% for category,msg in messages %}<div class="flash">{{ msg }}</div>{% endfor %}</div>{% endif %}{% endwith %}
+{% block content %}{% endblock %}
+<footer><div class="container footer-grid"><div><div class="logo">Encantar<small>Cerimonial</small></div><p class="muted">{{ site.descricao }}</p></div><div><strong>Navegação</strong><p><a href="{{ url_for('eventos_publicos') }}">Eventos</a><br><a href="{{ url_for('galeria_publica') }}">Galeria</a><br><a href="{{ url_for('contato') }}">Contato</a></p></div><div><strong>Contato</strong><p>{{ site.email }}<br>{{ site.telefone }}<br>{{ site.endereco }}</p></div></div><div class="container footer-bottom">© {{ ano }} {{ site.nome }} · Todos os direitos reservados.</div></footer>
+{% if whatsapp %}<a class="floating" href="{{ whatsapp }}" target="_blank" aria-label="WhatsApp">WA</a>{% endif %}
+<script src="{{ url_for('static', filename='js/main.js') }}"></script></body></html>
