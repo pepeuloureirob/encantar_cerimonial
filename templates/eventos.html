@@ -1,0 +1,4 @@
+{% extends "base.html" %}{% block title %}Eventos · {{ site.nome }}{% endblock %}{% block content %}
+<section class="page-hero"><div class="container"><div class="eyebrow">Portfólio</div><h1>Eventos realizados</h1></div></section>
+<section class="section"><div class="container grid grid-3">{% for e in eventos %}<article class="event-card reveal"><div class="photo">{% if e.imagem %}<img src="{{ url_for('static',filename='uploads/'~e.imagem) }}">{% endif %}</div><div class="event-body"><div class="event-meta">{{ e.tipo }} · {{ e.data_evento }}</div><h3>{{ e.titulo }}</h3><p>{{ e.descricao }}</p><p class="muted">{{ e.local }}</p>{% if e.album_url %}<a class="btn primary" href="{{ e.album_url }}" target="_blank">Ver álbum completo</a>{% endif %}</div></article>{% else %}<div class="empty">Nenhum evento cadastrado.</div>{% endfor %}</div></div></section>
+{% endblock %}

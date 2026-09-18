@@ -1,0 +1,4 @@
+{% extends "base.html" %}{% block title %}Galeria · {{ site.nome }}{% endblock %}{% block content %}
+<section class="page-hero"><div class="container"><div class="eyebrow">Mídia</div><h1>Galeria</h1></div></section>
+<section class="section"><div class="container"><div class="gallery">{% for i in imagens %}<div class="photo reveal"><img src="{{ url_for('static',filename='uploads/'~i.arquivo) }}" alt="{{ i.titulo }}"><div style="position:absolute"></div></div>{% else %}<div class="empty">Nenhuma foto publicada.</div>{% endfor %}</div></div></section>
+{% endblock %}
