@@ -1,8 +1,338 @@
-{% extends "base.html" %}{% block title %}{{ site.nome }} · {{ site.slogan }}{% endblock %}{% block content %}
-<section class="hero"><div class="container hero-content reveal"><div class="eyebrow">Encantar Cerimonial</div><h1>Seu momento.<br><em>Nossa missão.</em></h1><p>{{ site.slogan }} {{ site.descricao }}</p><a class="btn primary" href="{{ url_for('orcamento') }}">Solicitar orçamento</a><a class="btn" href="{{ url_for('eventos_publicos') }}">Conheça nossos eventos</a></div></section>
-<section class="section"><div class="container"><div class="section-head reveal"><div><div class="eyebrow">O que fazemos</div><h2>Planejamento com alma.</h2></div><p>Do primeiro detalhe ao último abraço, cuidamos da experiência para que você viva o seu evento.</p></div><div class="grid grid-3">{% for s in servicos %}<div class="card reveal"><div class="number">0{{ loop.index }}</div><h3>{{ s.nome }}</h3><p>{{ s.descricao }}</p></div>{% else %}<div class="empty">Cadastre seus serviços no painel administrativo.</div>{% endfor %}</div></div></section>
-<section class="section nude"><div class="container"><div class="section-head"><div><div class="eyebrow">Portfólio</div><h2>Eventos que ficaram na memória.</h2></div><a class="btn" href="{{ url_for('eventos_publicos') }}">Ver todos</a></div><div class="grid grid-3">{% for e in eventos %}<article class="event-card reveal"><div class="photo">{% if e.imagem %}<img src="{{ url_for('static',filename='uploads/'~e.imagem) }}">{% endif %}</div><div class="event-body"><div class="event-meta">{{ e.tipo }} · {{ e.data_evento }}</div><h3>{{ e.titulo }}</h3><p>{{ e.local }}</p>{% if e.album_url %}<a class="btn" href="{{ e.album_url }}" target="_blank">Abrir álbum</a>{% endif %}</div></article>{% else %}<div class="empty">Ainda não há eventos cadastrados.</div>{% endfor %}</div></div></section>
-<section class="section dark"><div class="container"><div class="section-head"><div><div class="eyebrow">Depoimentos</div><h2>Quem viveu, conta.</h2></div><a class="btn" href="{{ url_for('depoimentos') }}">Ver depoimentos</a></div><div class="grid grid-3">{% for f in feedbacks %}<div class="testimonial reveal"><div class="stars">{{ "★"*f.nota }}</div><p>“{{ f.mensagem }}”</p><strong>{{ f.nome }}</strong><div class="muted">{{ f.evento }}</div></div>{% else %}<div class="empty">Seus depoimentos aparecerão aqui após aprovação.</div>{% endfor %}</div></div></section>
-{% if imagens %}<section class="section"><div class="container"><div class="section-head"><div><div class="eyebrow">Galeria</div><h2>Detalhes que encantam.</h2></div><a class="btn" href="{{ url_for('galeria_publica') }}">Abrir galeria</a></div><div class="gallery">{% for i in imagens %}<div class="photo reveal"><img src="{{ url_for('static',filename='uploads/'~i.arquivo) }}" alt="{{ i.titulo }}"></div>{% endfor %}</div></div></section>{% endif %}
-<section class="section"><div class="container cta"><div class="eyebrow">Vamos conversar?</div><h2>Conte para a Encantar como você imagina o seu grande dia.</h2><a class="btn rose" href="{{ url_for('orcamento') }}">Quero um orçamento</a></div></section>
+{% extends "base.html" %}
+
+{% block title %}{{ site.nome }}{% endblock %}
+
+{% block content %}
+
+<section class="hero"
+    {% if site.banner %}
+        style="background-image:
+            linear-gradient(
+                rgba(23, 20, 20, .48),
+                rgba(23, 20, 20, .48)
+            ),
+            url('{{ url_for("static", filename="uploads/" ~ site.banner) }}');"
+    {% endif %}
+>
+    <div class="hero-content">
+
+        <span class="eyebrow">
+            {{ site.nome }}
+        </span>
+
+        <h1>
+            {{ site.slogan }}
+        </h1>
+
+        <p>
+            {{ site.descricao }}
+        </p>
+
+        <div class="hero-actions">
+
+            <a
+                href="{{ url_for('orcamento') }}"
+                class="btn btn-primary"
+            >
+                Solicitar orçamento
+            </a>
+
+            <a
+                href="{{ url_for('eventos_publicos') }}"
+                class="btn btn-outline"
+            >
+                Conheça nossos eventos
+            </a>
+
+        </div>
+
+    </div>
+</section>
+
+
+<section class="section">
+
+    <div class="section-heading">
+
+        <span class="eyebrow">
+            O que fazemos
+        </span>
+
+        <h2>
+            Serviços para transformar seu evento
+        </h2>
+
+        <p>
+            Cuidamos dos detalhes para que você aproveite cada momento.
+        </p>
+
+    </div>
+
+
+    <div class="cards-grid">
+
+        {% for servico in servicos %}
+
+            <article class="card">
+
+                <div class="card-icon">
+                    ✦
+                </div>
+
+                <h3>
+                    {{ servico.nome }}
+                </h3>
+
+                <p>
+                    {{ servico.descricao }}
+                </p>
+
+            </article>
+
+        {% else %}
+
+            <article class="card">
+
+                <div class="card-icon">
+                    ✦
+                </div>
+
+                <h3>
+                    Cerimonial completo
+                </h3>
+
+                <p>
+                    Organização, planejamento e acompanhamento
+                    para o seu grande dia.
+                </p>
+
+            </article>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+{% if eventos %}
+
+<section class="section section-soft">
+
+    <div class="section-heading">
+
+        <span class="eyebrow">
+            Eventos
+        </span>
+
+        <h2>
+            Momentos que já vivemos
+        </h2>
+
+    </div>
+
+
+    <div class="cards-grid">
+
+        {% for evento in eventos %}
+
+            <article class="event-card">
+
+                {% if evento.imagem %}
+
+                    <img
+                        src="{{ url_for('static', filename='uploads/' ~ evento.imagem) }}"
+                        alt="{{ evento.titulo }}"
+                    >
+
+                {% endif %}
+
+                <div class="event-card-content">
+
+                    <span>
+                        {{ evento.tipo }}
+                    </span>
+
+                    <h3>
+                        {{ evento.titulo }}
+                    </h3>
+
+                    <p>
+                        {{ evento.descricao }}
+                    </p>
+
+                    {% if evento.album_url %}
+
+                        <a
+                            href="{{ evento.album_url }}"
+                            target="_blank"
+                            rel="noopener"
+                            class="text-link"
+                        >
+                            Ver álbum →
+                        </a>
+
+                    {% endif %}
+
+                </div>
+
+            </article>
+
+        {% endfor %}
+
+    </div>
+
+    <div class="section-action">
+
+        <a
+            href="{{ url_for('eventos_publicos') }}"
+            class="btn btn-secondary"
+        >
+            Ver todos os eventos
+        </a>
+
+    </div>
+
+</section>
+
+{% endif %}
+
+
+{% if imagens %}
+
+<section class="section">
+
+    <div class="section-heading">
+
+        <span class="eyebrow">
+            Galeria
+        </span>
+
+        <h2>
+            Alguns dos nossos registros
+        </h2>
+
+    </div>
+
+
+    <div class="gallery-grid">
+
+        {% for imagem in imagens %}
+
+            <a
+                href="{{ url_for('galeria_publica') }}"
+                class="gallery-item"
+            >
+
+                <img
+                    src="{{ url_for('static', filename='uploads/' ~ imagem.arquivo) }}"
+                    alt="{{ imagem.titulo or 'Foto do Encantar Cerimonial' }}"
+                    loading="lazy"
+                >
+
+            </a>
+
+        {% endfor %}
+
+    </div>
+
+    <div class="section-action">
+
+        <a
+            href="{{ url_for('galeria_publica') }}"
+            class="btn btn-secondary"
+        >
+            Ver galeria completa
+        </a>
+
+    </div>
+
+</section>
+
+{% endif %}
+
+
+{% if feedbacks %}
+
+<section class="section section-soft">
+
+    <div class="section-heading">
+
+        <span class="eyebrow">
+            Depoimentos
+        </span>
+
+        <h2>
+            O que nossos clientes dizem
+        </h2>
+
+    </div>
+
+
+    <div class="cards-grid">
+
+        {% for feedback in feedbacks %}
+
+            <article class="testimonial">
+
+                <div class="stars">
+                    {% for i in range(feedback.nota or 5) %}
+                        ★
+                    {% endfor %}
+                </div>
+
+                <p>
+                    “{{ feedback.mensagem }}”
+                </p>
+
+                <strong>
+                    {{ feedback.nome }}
+                </strong>
+
+                {% if feedback.evento %}
+
+                    <span>
+                        {{ feedback.evento }}
+                    </span>
+
+                {% endif %}
+
+            </article>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endif %}
+
+
+<section class="cta-section">
+
+    <div class="cta-content">
+
+        <span class="eyebrow">
+            Vamos conversar?
+        </span>
+
+        <h2>
+            Seu evento merece ser inesquecível.
+        </h2>
+
+        <p>
+            Conte para nós o que você está planejando.
+        </p>
+
+        <a
+            href="{{ url_for('orcamento') }}"
+            class="btn btn-primary"
+        >
+            Solicitar orçamento
+        </a>
+
+    </div>
+
+</section>
+
 {% endblock %}
