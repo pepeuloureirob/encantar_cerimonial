@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+:root{
+  --black:#171414; --brown:#5b4038; --rose:#b98586; --nude:#ead9cf;
+  --gray:#8d8784; --light:#f8f4f1; --white:#fff; --line:#e8dfda;
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;background:var(--light);color:var(--black);font-family:Montserrat,Arial,sans-serif}
+a{color:inherit;text-decoration:none}.container{width:min(1180px,92%);margin:auto}
+h1,h2,h3{font-family:"Cormorant Garamond",serif;font-weight:600;line-height:1.02}
+h1{font-size:clamp(3.4rem,7vw,6.8rem);margin:0 0 18px} h2{font-size:clamp(2.5rem,4vw,4.2rem);margin:0 0 18px}
+p{line-height:1.8}.muted{color:var(--gray)}
+.topbar{background:var(--black);color:#eee;font-size:12px;padding:9px 0}
+.topbar .container{display:flex;justify-content:flex-end;gap:20px}
+header{position:sticky;top:0;z-index:20;background:rgba(248,244,241,.94);backdrop-filter:blur(14px);border-bottom:1px solid rgba(91,64,56,.08)}
+.nav-wrap{min-height:82px;display:flex;align-items:center;justify-content:space-between;gap:30px}
+.logo{font-family:"Cormorant Garamond";font-size:34px;font-weight:700;letter-spacing:.04em}.logo small{display:block;font:10px Montserrat;letter-spacing:.34em;text-transform:uppercase}
+.site-nav{display:flex;gap:22px;align-items:center;font-size:12px;text-transform:uppercase;letter-spacing:.09em}
+.site-nav a{padding:10px 0;position:relative}.site-nav a:after{content:"";position:absolute;left:0;right:100%;bottom:4px;height:1px;background:var(--rose);transition:.3s}.site-nav a:hover:after{right:0}
+.menu-toggle{display:none;border:0;background:none;font-size:24px}
+.hero{min-height:calc(100vh - 110px);display:grid;place-items:center;position:relative;overflow:hidden;background:radial-gradient(circle at 75% 30%,#e5cbc3 0,#ead9cf 24%,#f8f4f1 55%,#f8f4f1 100%)}
+.hero:before{content:"";position:absolute;width:500px;height:500px;border:1px solid rgba(91,64,56,.15);border-radius:50%;right:-120px;top:-100px}
+.hero-content{position:relative;z-index:1;max-width:850px;padding:90px 0}
+.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.35em;color:var(--brown);margin-bottom:20px}
+.hero p{max-width:640px;font-size:16px;color:#655c58}
+.btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--black);padding:14px 23px;text-transform:uppercase;letter-spacing:.1em;font-size:11px;transition:.25s;margin:5px 5px 5px 0}
+.btn.primary{background:var(--black);color:#fff}.btn:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(23,20,20,.1)}.btn.rose{background:var(--rose);border-color:var(--rose);color:#fff}
+.section{padding:95px 0}.section.dark{background:var(--black);color:#fff}.section.nude{background:var(--nude)}
+.section-head{display:flex;justify-content:space-between;gap:30px;align-items:end;margin-bottom:45px}.section-head p{max-width:480px}
+.grid{display:grid;gap:22px}.grid-2{grid-template-columns:repeat(2,1fr)}.grid-3{grid-template-columns:repeat(3,1fr)}.grid-4{grid-template-columns:repeat(4,1fr)}
+.card{background:#fff;border:1px solid var(--line);padding:28px}.dark .card{background:#211d1c;border-color:#3c3532}
+.card h3{font-size:30px;margin:0 0 12px}.number{font:12px Montserrat;color:var(--rose);letter-spacing:.2em}
+.photo{height:280px;background:#ddd center/cover no-repeat;overflow:hidden}.photo img{width:100%;height:100%;object-fit:cover}
+.event-card{overflow:hidden;background:#fff;border:1px solid var(--line)}.event-card .photo{height:240px}.event-body{padding:25px}.event-meta{font-size:11px;color:var(--rose);text-transform:uppercase;letter-spacing:.12em}
+.team-card{text-align:center;background:#fff;border:1px solid var(--line);overflow:hidden}.team-card .photo{height:330px}.team-body{padding:20px}.team-body h3{margin:0;font-size:27px}
+.testimonial{background:#fff;padding:30px;border-left:3px solid var(--rose)}.stars{letter-spacing:.2em;color:var(--rose)}
+.gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.gallery .photo{height:260px}
+.cta{background:var(--brown);color:#fff;padding:60px}.cta h2{max-width:700px}
+footer{background:#121010;color:#ddd;padding:60px 0 25px}.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px}.footer-bottom{border-top:1px solid #312b29;margin-top:45px;padding-top:20px;font-size:11px;color:#918986}
+.floating{position:fixed;right:22px;bottom:22px;z-index:30;background:#25d366;color:white;width:56px;height:56px;border-radius:50%;display:grid;place-items:center;font-weight:700;box-shadow:0 10px 30px #0002}
+.page-hero{padding:90px 0 70px;background:var(--nude)}.page-hero h1{font-size:clamp(3rem,6vw,5.8rem)}
+.form{background:#fff;padding:35px;border:1px solid var(--line)}label{font-size:11px;text-transform:uppercase;letter-spacing:.1em;display:block;margin:15px 0 7px}input,textarea,select{width:100%;border:1px solid #d8cec8;padding:14px;background:#fff;font:14px Montserrat}textarea{min-height:140px;resize:vertical}.flash{padding:14px 18px;margin:15px 0;border-left:3px solid var(--rose);background:#fff}
+.reveal{opacity:0;transform:translateY(18px);transition:.7s ease}.reveal.visible{opacity:1;transform:none}
+.faq-item{padding:22px 0;border-bottom:1px solid #d8cec8}.faq-item h3{font-size:25px;margin:0 0 8px}
+.empty{padding:45px;text-align:center;border:1px dashed #cfc3bc;color:var(--gray)}
+@media(max-width:900px){.grid-4{grid-template-columns:repeat(2,1fr)}.grid-3{grid-template-columns:1fr 1fr}.gallery{grid-template-columns:1fr 1fr}.site-nav{display:none;position:absolute;top:82px;left:0;right:0;background:var(--light);padding:20px;flex-direction:column;align-items:flex-start;border-bottom:1px solid var(--line)}.site-nav.open{display:flex}.menu-toggle{display:block}.footer-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.section{padding:65px 0}.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}.gallery{grid-template-columns:1fr 1fr}.hero-content{padding:60px 0}.section-head{display:block}.footer-grid{grid-template-columns:1fr}.topbar{display:none}}
