@@ -1,0 +1,4 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{% block title %}Admin · Encantar{% endblock %}</title><link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}"></head><body style="background:#f1ece9">
+<header><div class="container nav-wrap"><a class="logo" href="{{ url_for('admin_dashboard') }}">ENCANTAR<small>PAINEL ADMIN</small></a><nav class="site-nav" style="display:flex"><a href="{{ url_for('home') }}">Site</a><a href="{{ url_for('admin_logout') }}">Sair</a></nav></div></header>
+<div class="container" style="padding:45px 0">{% with messages=get_flashed_messages(with_categories=true) %}{% for category,msg in messages %}<div class="flash">{{ msg }}</div>{% endfor %}{% endwith %}{% block content %}{% endblock %}</div>
+<script src="{{ url_for('static',filename='js/main.js') }}"></script></body></html>
