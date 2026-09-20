@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}{% block title %}Serviços · {{ site.nome }}{% endblock %}{% block content %}
 <section class="page-hero"><div class="container"><div class="eyebrow">Experiência Encantar</div><h1>Serviços</h1></div></section>
 <section class="section"><div class="container grid grid-3">{% for s in servicos %}<article class="card reveal"><div class="number">0{{ loop.index }}</div><h3>{{ s.nome }}</h3><p>{{ s.descricao }}</p></article>{% else %}<div class="empty">Cadastre seus serviços no painel administrativo.</div>{% endfor %}</div></section>
