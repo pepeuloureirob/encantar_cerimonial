@@ -935,7 +935,6 @@ def admin_feedbacks_page():
 @app.route("/admin/configuracoes", methods=["GET", "POST"])
 @admin_required
 def admin_configuracoes():
-
     keys = [
         "nome_empresa",
         "slogan",
@@ -947,26 +946,21 @@ def admin_configuracoes():
         "maps",
         "endereco",
         "telefone",
-        "logo",
-        "banner",
+        "logo"
     ]
 
     if request.method == "POST":
         check_csrf()
 
-        # Salva campos de texto.
+        # Salva as configurações de texto
         for key in keys:
-            # banner será tratado pelo upload abaixo.
-            if key == "banner":
+            # A logo será tratada separadamente abaixo
+            if key == "logo":
                 continue
 
             value = request.form.get(key, "").strip()
 
-            item = (
-                Configuracao.query
-                .filter_by(chave=key)
-                .first()
-            )
+            item = Configuracao.query.filter_by(chave=key).first()
 
             if not item:
                 item = Configuracao(chave=key)
@@ -974,6 +968,53 @@ def admin_configuracoes():
 
             item.valor = value
 
+        # ==========================================
+        # UPLOAD DA LOGO
+        # ==========================================
+
+        logo_file = request.files.get("logo_file")
+
+        if logo_file and logo_file.filename:
+
+            if not allowed_file(logo_file.filename):
+                flash(
+                    "Formato de logo inválido. Use PNG, JPG, JPEG, WEBP ou GIF.",
+                    "error"
+                )
+                return redirect(url_for("admin_configuracoes"))
+
+            # Salva a nova logo
+            novo_arquivo = save_upload(
+                logo_file,
+                prefix="logo"
+            )
+
+            if novo_arquivo:
+                item_logo = Configuracao.query.filter_by(
+                    chave="logo"
+                ).first()
+
+                if not item_logo:
+                    item_logo = Configuracao(chave="logo")
+                    db.session.add(item_logo)
+
+                item_logo.valor = novo_arquivo
+
+        db.session.commit()
+
+        flash("Configurações salvas com sucesso.", "success")
+
+        return redirect(url_for("admin_configuracoes"))
+
+    values = {
+        key: cfg(key, "")
+        for key in keys
+    }
+
+    return render_template(
+        "admin/configuracoes.html",
+        values=values
+    )
         # -------------------------------------------------
         # NOVO: upload do banner da página inicial
         # -------------------------------------------------
