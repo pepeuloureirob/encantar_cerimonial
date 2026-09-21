@@ -1,278 +1,241 @@
 {% extends "admin/base.html" %}
 
-{% block title %}Configurações{% endblock %}
-
 {% block content %}
 
-<div class="admin-page-header">
-    <div>
-        <h1>Configurações</h1>
-        <p>Personalize as informações e a identidade visual do Encantar Cerimonial.</p>
-    </div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:30px">
+
+    <a class="btn" href="{{ url_for('admin_dashboard') }}">
+        Dashboard
+    </a>
+
+    <a class="btn" href="{{ url_for('admin_eventos') }}">
+        Eventos
+    </a>
+
+    <a class="btn" href="{{ url_for('admin_imagens') }}">
+        Imagens
+    </a>
+
+    <a class="btn" href="{{ url_for('admin_servicos') }}">
+        Serviços
+    </a>
+
+    <a class="btn" href="{{ url_for('admin_equipe') }}">
+        Equipe
+    </a>
+
+    <a class="btn" href="{{ url_for('admin_configuracoes') }}">
+        Configurações
+    </a>
+
+    <a class="btn" href="{{ url_for('admin_backup') }}">
+        Backup
+    </a>
+
 </div>
 
-<form method="POST"
-      enctype="multipart/form-data"
-      class="admin-form">
 
-    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
+<div class="card">
 
-    <div class="form-section">
-        <h2>Informações da empresa</h2>
+    <div class="eyebrow">
+        Identidade e contatos
+    </div>
 
-        <div class="form-grid">
+    <h1 style="font-size:55px">
+        Configurações
+    </h1>
 
-            <div class="form-group">
-                <label for="nome_empresa">Nome da empresa</label>
+
+    <form
+        method="post"
+        enctype="multipart/form-data"
+    >
+
+        <input
+            type="hidden"
+            name="_csrf"
+            value="{{ csrf_token }}"
+        >
+
+
+        <div class="grid grid-2">
+
+
+            <!-- COLUNA ESQUERDA -->
+
+            <div>
+
+                <label>
+                    Nome da empresa
+                </label>
+
                 <input
-                    type="text"
-                    id="nome_empresa"
                     name="nome_empresa"
                     value="{{ values.nome_empresa }}"
                 >
-            </div>
 
-            <div class="form-group">
-                <label for="slogan">Slogan</label>
+
+                <label>
+                    Slogan
+                </label>
+
                 <input
-                    type="text"
-                    id="slogan"
                     name="slogan"
                     value="{{ values.slogan }}"
                 >
-            </div>
-
-        </div>
-
-        <div class="form-group">
-            <label for="descricao">Descrição</label>
-            <textarea
-                id="descricao"
-                name="descricao"
-                rows="4"
-            >{{ values.descricao }}</textarea>
-        </div>
-    </div>
 
 
-    <div class="form-section">
-        <h2>Imagem principal da página inicial</h2>
+                <label>
+                    Descrição
+                </label>
 
-        <p class="form-help">
-            Escolha aqui a foto que será usada como banner/hero principal
-            da página inicial.
-        </p>
+                <textarea name="descricao">{{ values.descricao }}</textarea>
 
-        {% if values.banner %}
-            <div class="banner-preview">
-                <img
-                    src="{{ url_for('static', filename='uploads/' ~ values.banner) }}"
-                    alt="Banner atual da página inicial"
+
+                <!-- LOGO -->
+
+                <label>
+                    Logo da empresa
+                </label>
+
+
+                {% if values.logo %}
+
+                    <div style="margin:15px 0;">
+
+                        <p style="margin-bottom:8px;">
+                            Logo atual:
+                        </p>
+
+                        <img
+                            src="{{ url_for(
+                                'static',
+                                filename='uploads/' ~ values.logo
+                            ) }}"
+                            alt="Logo atual"
+                            style="
+                                max-width:220px;
+                                max-height:100px;
+                                object-fit:contain;
+                                border:1px solid #ddd;
+                                padding:12px;
+                                border-radius:10px;
+                                background:#fff;
+                            "
+                        >
+
+                    </div>
+
+                {% endif %}
+
+
+                <label>
+                    Escolher nova logo
+                </label>
+
+                <input
+                    type="file"
+                    name="logo_file"
+                    accept=".png,.jpg,.jpeg,.webp,.gif"
                 >
 
-                <div class="banner-preview-info">
-                    <strong>Banner atual</strong>
-                    <span>{{ values.banner }}</span>
-                </div>
+                <small>
+                    Formatos permitidos:
+                    PNG, JPG, JPEG, WEBP ou GIF.
+                </small>
+
             </div>
-        {% else %}
-            <div class="empty-state">
-                <strong>Nenhum banner cadastrado.</strong>
-                <span>Envie uma foto abaixo para definir a imagem principal.</span>
-            </div>
-        {% endif %}
-
-        <div class="form-group">
-            <label for="banner">Nova foto do banner</label>
-
-            <input
-                type="file"
-                id="banner"
-                name="banner"
-                accept=".jpg,.jpeg,.png,.webp,.gif,image/jpeg,image/png,image/webp,image/gif"
-            >
-
-            <small>
-                Formatos aceitos: JPG, JPEG, PNG, WEBP e GIF.
-                Tamanho máximo: 16 MB.
-            </small>
-        </div>
-    </div>
 
 
-    <div class="form-section">
-        <h2>Contato</h2>
+            <!-- COLUNA DIREITA -->
 
-        <div class="form-grid">
+            <div>
 
-            <div class="form-group">
-                <label for="whatsapp">WhatsApp</label>
+                <label>
+                    WhatsApp
+                </label>
+
                 <input
-                    type="text"
-                    id="whatsapp"
                     name="whatsapp"
                     value="{{ values.whatsapp }}"
                     placeholder="5583999999999"
                 >
-                <small>
-                    Informe o número com DDI e DDD, somente números.
-                </small>
-            </div>
 
-            <div class="form-group">
-                <label for="telefone">Telefone</label>
+
+                <label>
+                    Instagram
+                </label>
+
                 <input
-                    type="text"
-                    id="telefone"
-                    name="telefone"
-                    value="{{ values.telefone }}"
+                    name="instagram"
+                    value="{{ values.instagram }}"
                 >
-            </div>
 
-            <div class="form-group">
-                <label for="email">E-mail</label>
+
+                <label>
+                    Facebook
+                </label>
+
+                <input
+                    name="facebook"
+                    value="{{ values.facebook }}"
+                >
+
+
+                <label>
+                    E-mail
+                </label>
+
                 <input
                     type="email"
-                    id="email"
                     name="email"
                     value="{{ values.email }}"
                 >
-            </div>
 
-            <div class="form-group">
-                <label for="instagram">Instagram</label>
+
+                <label>
+                    Telefone
+                </label>
+
                 <input
-                    type="text"
-                    id="instagram"
-                    name="instagram"
-                    value="{{ values.instagram }}"
-                    placeholder="https://instagram.com/..."
+                    name="telefone"
+                    value="{{ values.telefone }}"
                 >
-            </div>
 
-            <div class="form-group">
-                <label for="facebook">Facebook</label>
+
+                <label>
+                    Endereço
+                </label>
+
                 <input
-                    type="text"
-                    id="facebook"
-                    name="facebook"
-                    value="{{ values.facebook }}"
-                    placeholder="https://facebook.com/..."
+                    name="endereco"
+                    value="{{ values.endereco }}"
                 >
+
+
+                <label>
+                    Google Maps / iframe
+                </label>
+
+                <input
+                    name="maps"
+                    value="{{ values.maps }}"
+                >
+
             </div>
 
         </div>
 
-        <div class="form-group">
-            <label for="endereco">Endereço</label>
-            <input
-                type="text"
-                id="endereco"
-                name="endereco"
-                value="{{ values.endereco }}"
-            >
-        </div>
 
-        <div class="form-group">
-            <label for="maps">Google Maps</label>
-            <input
-                type="text"
-                id="maps"
-                name="maps"
-                value="{{ values.maps }}"
-                placeholder="URL do Google Maps"
-            >
-        </div>
-    </div>
-
-
-    <div class="form-section">
-        <h2>Logo</h2>
-
-        <div class="form-group">
-            <label for="logo">URL ou caminho da logo</label>
-            <input
-                type="text"
-                id="logo"
-                name="logo"
-                value="{{ values.logo }}"
-                placeholder="Ex.: /static/uploads/logo.png"
-            >
-        </div>
-    </div>
-
-
-    <div class="admin-form-actions">
-        <button type="submit" class="btn btn-primary">
+        <button
+            class="btn primary"
+            type="submit"
+        >
             Salvar configurações
         </button>
-    </div>
 
-</form>
+    </form>
 
-<style>
-.banner-preview {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    margin: 20px 0 25px;
-    padding: 16px;
-    border: 1px solid rgba(91, 64, 56, .15);
-    border-radius: 16px;
-    background: #faf7f5;
-}
-
-.banner-preview img {
-    width: 280px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 12px;
-    display: block;
-}
-
-.banner-preview-info {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.banner-preview-info span {
-    font-size: 13px;
-    opacity: .7;
-    word-break: break-all;
-}
-
-.form-help {
-    margin-bottom: 20px;
-    opacity: .75;
-}
-
-.empty-state {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    margin: 20px 0;
-    padding: 20px;
-    border-radius: 14px;
-    background: #faf7f5;
-    border: 1px dashed rgba(91, 64, 56, .25);
-}
-
-.empty-state span {
-    opacity: .7;
-}
-
-@media (max-width: 700px) {
-    .banner-preview {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .banner-preview img {
-        width: 100%;
-        height: 190px;
-    }
-}
-</style>
+</div>
 
 {% endblock %}
