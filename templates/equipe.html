@@ -1,4 +1,0 @@
-{% extends "base.html" %}{% block title %}Equipe · {{ site.nome }}{% endblock %}{% block content %}
-<section class="page-hero"><div class="container"><div class="eyebrow">Quem faz acontecer</div><h1>Nossa equipe</h1><p>Profissionais que cuidam de cada detalhe para você aproveitar o que realmente importa.</p></div></section>
-<section class="section"><div class="container grid grid-4">{% for p in equipe %}<article class="team-card reveal"><div class="photo">{% if p.foto %}<img src="{{ url_for('static',filename='uploads/'~p.foto) }}">{% endif %}</div><div class="team-body"><h3>{{ p.nome }}</h3><p class="muted">{{ p.cargo }}</p><p>{{ p.bio }}</p>{% if p.instagram %}<a class="btn" href="{{ p.instagram }}" target="_blank">Instagram</a>{% endif %}</div></article>{% else %}<div class="empty">Cadastre a equipe no painel.</div>{% endfor %}</div></div></section>
-{% endblock %}
