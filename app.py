@@ -936,30 +936,18 @@ def admin_feedbacks_page():
 @admin_required
 def admin_configuracoes():
     keys = [
-        "nome_empresa",
-        "slogan",
-        "descricao",
-        "whatsapp",
-        "instagram",
-        "facebook",
-        "email",
-        "maps",
-        "endereco",
-        "telefone",
-        "logo"
+        "nome_empresa", "slogan", "descricao", "whatsapp", "instagram",
+        "facebook", "email", "maps", "endereco", "telefone", "logo", "banner"
     ]
 
     if request.method == "POST":
         check_csrf()
 
-        # Salva as configurações de texto
         for key in keys:
-            # A logo será tratada separadamente abaixo
-            if key == "logo":
+            if key in ("logo", "banner"):
                 continue
 
             value = request.form.get(key, "").strip()
-
             item = Configuracao.query.filter_by(chave=key).first()
 
             if not item:
@@ -968,109 +956,55 @@ def admin_configuracoes():
 
             item.valor = value
 
-        # ==========================================
-        # UPLOAD DA LOGO
-        # ==========================================
-
         logo_file = request.files.get("logo_file")
-
         if logo_file and logo_file.filename:
-
             if not allowed_file(logo_file.filename):
-                flash(
-                    "Formato de logo inválido. Use PNG, JPG, JPEG, WEBP ou GIF.",
-                    "error"
-                )
+                flash("Formato de logo inválido. Use PNG, JPG, JPEG, WEBP ou GIF.", "error")
                 return redirect(url_for("admin_configuracoes"))
 
-            # Salva a nova logo
-            novo_arquivo = save_upload(
-                logo_file,
-                prefix="logo"
-            )
+            novo_arquivo = save_upload(logo_file, prefix="logo")
+            if not novo_arquivo:
+                flash("Não foi possível salvar a logo.", "error")
+                return redirect(url_for("admin_configuracoes"))
 
-            if novo_arquivo:
-                item_logo = Configuracao.query.filter_by(
-                    chave="logo"
-                ).first()
+            item_logo = Configuracao.query.filter_by(chave="logo").first()
+            if not item_logo:
+                item_logo = Configuracao(chave="logo")
+                db.session.add(item_logo)
 
-                if not item_logo:
-                    item_logo = Configuracao(chave="logo")
-                    db.session.add(item_logo)
+            antigo_logo = item_logo.valor
+            item_logo.valor = novo_arquivo
 
-                item_logo.valor = novo_arquivo
-
-        db.session.commit()
-
-        flash("Configurações salvas com sucesso.", "success")
-
-        return redirect(url_for("admin_configuracoes"))
-
-    values = {
-        key: cfg(key, "")
-        for key in keys
-    }
-
-    return render_template(
-        "admin/configuracoes.html",
-        values=values
-    )
-        # -------------------------------------------------
-        # NOVO: upload do banner da página inicial
-        # -------------------------------------------------
+            if antigo_logo and antigo_logo != novo_arquivo:
+                delete_upload(antigo_logo)
 
         banner_file = request.files.get("banner")
-
         if banner_file and banner_file.filename:
+            if not allowed_file(banner_file.filename):
+                flash("Formato de banner inválido. Use PNG, JPG, JPEG, WEBP ou GIF.", "error")
+                return redirect(url_for("admin_configuracoes"))
 
-            novo_banner = save_upload(
-                banner_file,
-                "banner"
-            )
-
+            novo_banner = save_upload(banner_file, prefix="banner")
             if not novo_banner:
-                flash(
-                    "O banner não foi enviado. Use PNG, JPG, JPEG, WEBP ou GIF.",
-                    "error"
-                )
-                db.session.rollback()
-                return redirect(
-                    url_for("admin_configuracoes")
-                )
+                flash("Não foi possível salvar o banner.", "error")
+                return redirect(url_for("admin_configuracoes"))
 
-            banner_item = (
-                Configuracao.query
-                .filter_by(chave="banner")
-                .first()
-            )
-
+            banner_item = Configuracao.query.filter_by(chave="banner").first()
             if not banner_item:
-                banner_item = Configuracao(
-                    chave="banner"
-                )
+                banner_item = Configuracao(chave="banner")
                 db.session.add(banner_item)
 
             antigo_banner = banner_item.valor
             banner_item.valor = novo_banner
 
-            if antigo_banner:
+            if antigo_banner and antigo_banner != novo_banner:
                 delete_upload(antigo_banner)
 
         db.session.commit()
+        flash("Configurações salvas com sucesso.", "success")
+        return redirect(url_for("admin_configuracoes"))
 
-        flash(
-            "Configurações salvas com sucesso.",
-            "success"
-        )
-
-        return redirect(
-            url_for("admin_configuracoes")
-        )
-
-    values = {
-        key: cfg(key, "")
-        for key in keys
-    }
+    values = {key: cfg(key, "") for key in keys}
 
     return render_template(
         "admin/configuracoes.html",
@@ -1078,8 +1012,9 @@ def admin_configuracoes():
     )
 
 
+
 # =========================================================
-# ADMIN - BACKUP
+
 # =========================================================
 
 @app.route("/admin/backup")
